@@ -1,0 +1,19 @@
+# Server-side dependencies
+/node_modules/
+
+# Logs, temp files, and other generated files
+/logs/
+/tmp/
+/build/
+
+# Environment files
+/.env.local
+/.env.*
+/.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
