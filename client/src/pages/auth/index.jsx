@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import apiClient from '@/lib/api-client';
-import { LOGIN_ROUTES, SIGNUP_ROUTES } from '@/utils/constants';
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from '@/utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store';
 
@@ -53,7 +53,7 @@ const Auth = () => {
   const handleSignup = async () => {
   try {
     if (validateSignup()) {
-      const response = await apiClient.post(SIGNUP_ROUTES, { email, password });
+      const response = await apiClient.post(SIGNUP_ROUTE, { email, password });
       
       if(response.status === 201){
         setUserInfo(response.data.user);
@@ -69,7 +69,7 @@ const Auth = () => {
 
   const handleLogin = async () => {
     if(validateLogin()){
-      const response = await apiClient.post(LOGIN_ROUTES , {email , password});
+      const response = await apiClient.post(LOGIN_ROUTE , {email , password});
       if(response.data.user.id){
         setUserInfo(response.data.user);
         if(response.data.user.profileSetup) navigate('/chat');

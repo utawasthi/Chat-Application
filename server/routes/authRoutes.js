@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser, getUserInfo, updateProfile, addProfileImage , deleteProfileImage} = require('../controllers/authController');
+const { registerUser, loginUser, getUserInfo, updateProfile, addProfileImage , deleteProfileImage, logOut} = require('../controllers/authController');
 const verifyToken = require('../middlewares/authMiddleware');
 const authRoutes = express.Router();
 const multer = require("multer");
@@ -17,6 +17,8 @@ authRoutes.post('/add-profile-image' ,
   addProfileImage
 );
 
-authRoutes.delete("/remove-profile-image" , verifyToken , deleteProfileImage); 
+authRoutes.delete("/remove-profile-image" , verifyToken , deleteProfileImage);
+
+authRoutes.post('/logout' , logOut);
 
 module.exports = authRoutes;

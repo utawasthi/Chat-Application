@@ -58,8 +58,11 @@ const Profile = () => {
           {withCredentials : true}
         );
 
+        console.log("from profile page" , response);
+
         if(response.status === 200 && response.data){
-          setUserInfo({...response.data});
+          setUserInfo({...response.data.user});
+          console.log("userInfo from profile page" ,userInfo);
           toast.success("Profile updated successfully!");
         }
       }
@@ -70,11 +73,12 @@ const Profile = () => {
   };
 
   const handleNavigate  = () => {
+    console.log(userInfo.prolfileSetup);
     if(userInfo.profileSetup){
       navigate('/chat');
     }
     else{
-      toast.error("Please complete the profile set up!")
+      toast.error("Please complete the profile set up!");
     }
   }
 

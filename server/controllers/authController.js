@@ -259,6 +259,30 @@ const deleteProfileImage = async (req , res) => {
   }
 }
 
+const logOut = async (req , res) => {
+  try{
+    
+    res.cookie("jwt" , "" , {
+      maxAge : 1 , 
+      secure : true,
+      sameSite : "None",
+    });
+
+    return res.status(200).json({
+      success : true,
+      message : 'Logout successfully!',
+    });
+
+  }
+  catch(error){
+    console.log(error);
+    res.status(500).json({
+      success : false ,
+      message : `Error while updating user info : ${error}`
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
@@ -266,4 +290,5 @@ module.exports = {
   updateProfile,
   addProfileImage,
   deleteProfileImage,
+  logOut,
 }
