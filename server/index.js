@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 const connectToDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const corsOptions = {
   origin: [process.env.ORIGIN],
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/contacts" , contactRoutes);
 
 connectToDB();
 
