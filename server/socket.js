@@ -1,4 +1,5 @@
 const { Server : SocketIOServer } = require('socket.io');
+const Messages = require('./models/MessageModel');
 
 const setupSocket = (server) => {
   const io = new SocketIOServer(server , {
@@ -21,6 +22,21 @@ const setupSocket = (server) => {
     }
   };
 
+  const sendMsg = async (msg) => {
+    const senderSocketId = userSocketMap.get(msg.sender);
+    const recipientSocketId = userSocketMap.get(msg.recipient);
+
+    const createMsg = await Messages.create(msg);
+    const msgData = await Messages.findById(createMsg._id).populate('sender' , "id email firstName , lastName image color ").populate('recipient' , "id email firstName lastName image color");
+
+    if(recipientSocketId){
+      io.to(recipientSocketId).emit("receiveMsg" , msgData);
+    }
+    if(senderSocketId){
+      io.to(senderSocketId).emit("receiveMsg" , msgData);
+    }
+  }
+
   io.on("connection" , (socket) => {
     const userId = socket.handshake.query.userId;
 
@@ -32,6 +48,7 @@ const setupSocket = (server) => {
       console.log("User ID not provided during connection");
     }
 
+    socket.on("sendMsg" , sendMsg(msg));
     socket.on("disconnect" , () => disconnect(socket));
   });
    

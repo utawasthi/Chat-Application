@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const verifyToken = (req , res , next) => {
   const token = req.cookies.jwt;
   if(!token){
-    res.status(401).json({
+    return res.status(401).json({
       success : false,
       message : "Access Denied !",
     });
@@ -16,7 +16,7 @@ const verifyToken = (req , res , next) => {
     next();
   }
   catch(error){
-    res.status(403).json({
+    return res.status(403).json({
       success : false,
       message : "Invalid Token!",
     })
