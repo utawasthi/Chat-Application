@@ -9,7 +9,7 @@ const MessageBar = () => {
   
   const emojiRef = useRef();
   const socket = useSocket();
-  console.log("socket ----> " , socket);
+  // console.log("socket ----> " , socket);
   const {selectedChatType , selectedChatData , userInfo} = useAppStore();
 
   const [message, setMessage] = useState("");

@@ -7,6 +7,7 @@ const connectToDB = require('./config/db');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const messagesRoutes = require('./routes/messagesRoutes');
 
 const setupSocket = require('./socket');
 
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts" , contactRoutes);
+app.use("/api/messages" , messagesRoutes);
 
 connectToDB();
 

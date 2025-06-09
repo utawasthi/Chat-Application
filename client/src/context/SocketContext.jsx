@@ -21,7 +21,6 @@ export const SocketProvider = ({children}) => {
     });
   }
 
-
   useEffect(() => {
 
     if(!socket.current) return;
