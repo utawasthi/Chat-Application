@@ -1,7 +1,7 @@
 const createAuthSlice = (set) => ({
   userInfo : undefined,
   setUserInfo : (userInfo) => {
-    console.log("updating the userInfo in the zustand store");
+    // console.log("updating the userInfo in the zustand store");
     set({userInfo})},
 });
 

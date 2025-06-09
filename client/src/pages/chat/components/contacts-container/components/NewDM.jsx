@@ -37,7 +37,7 @@ const NewDM = () => {
           {searchTerm},
           {withCredentials : true}
         );
-        console.log("from newDM component --> " ,response);
+        // console.log("from newDM component --> " ,response);
         if(response.status === 200 && response.data.contacts){
           setSearchedContacts(response.data.contacts);
         }

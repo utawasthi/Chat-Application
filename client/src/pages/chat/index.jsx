@@ -23,7 +23,7 @@ const Chat = () => {
     }
   } , [userInfo , navigate]); 
 
-  console.log("userInfo from chats page " , userInfo);
+  // console.log("userInfo from chats page " , userInfo);
 
 
   return (

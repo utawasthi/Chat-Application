@@ -11,6 +11,7 @@ import { GET_USER_INFO } from './utils/constants'
 const PrivateRoute = ({ children }) => {
   const { userInfo } = useAppStore();
   const isAuthenticated = !!userInfo;
+  // console.log("when refreshing chat page" , isAuthenticated);
   return isAuthenticated ? children : <Navigate to="/auth" />;
 };
 
@@ -42,7 +43,7 @@ export default function App() {
         setUserInfo(undefined);
       }
 
-      console.log("response from app page" ,response);
+      // console.log("response from app page" ,response);
     }
     catch(error){
       console.log(error);

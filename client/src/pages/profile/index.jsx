@@ -58,12 +58,13 @@ const Profile = () => {
           {withCredentials : true}
         );
 
-        console.log("from profile page" , response);
+        // console.log("from profile page" , response);
 
         if(response.status === 200 && response.data){
           setUserInfo({...response.data.user});
-          console.log("userInfo from profile page" ,userInfo);
+          // console.log("userInfo from profile page" ,userInfo);
           toast.success("Profile updated successfully!");
+          navigate('/chat');
         }
       }
       catch(error){
@@ -73,7 +74,7 @@ const Profile = () => {
   };
 
   const handleNavigate  = () => {
-    console.log(userInfo.prolfileSetup);
+    // console.log("profileSetup" , userInfo.profileSetup);
     if(userInfo.profileSetup){
       navigate('/chat');
     }
@@ -88,7 +89,7 @@ const Profile = () => {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    console.log(file);
+    // console.log(file);
     if(file){
       const formData = new FormData();
       formData.append("profile-image" , file);
@@ -98,7 +99,7 @@ const Profile = () => {
         {withCredentials : true}
       );
 
-      console.log("response for image -->" , response);
+      // console.log("response for image -->" , response);
 
       if(response.status === 200 && response.data.image){
         setUserInfo({...userInfo , image : response.data.image});

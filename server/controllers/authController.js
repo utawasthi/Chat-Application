@@ -43,7 +43,7 @@ const registerUser = async (req , res) => {
         userId : newUser._id,
         email : newUser.email,
         password : newUser.password,
-        profileSetup : newUser.profileSetup,
+        profileSetup : true,
       } 
     })
   }

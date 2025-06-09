@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import  createAuthSlice  from "./slices/auth-slice";
 import { createChatSlice } from "./slices/chat-slice";
+import { persist } from 'zustand/middleware';
+
 
 // ...a ---> rest operator that captures all the arguments passed by zustand's create method (set , get and api)
 

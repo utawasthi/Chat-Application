@@ -34,4 +34,4 @@ const msgSchema = new mongoose.Schema({
   },
 });
 
-modules.exports =  mongoose.model("Messages" , msgSchema);
+module.exports =  mongoose.model("Messages" , msgSchema);
