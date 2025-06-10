@@ -1,28 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ProfileInfo from './components/ProfileInfo';
 import NewDM from './components/NewDM';
-
-const ContactsContainer = () => {
-  return (
-    <div className = "relative md:w-[35vw] lg:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full">
-      <div className="pt-3">
-        <Logo/>
-      </div>
-      <div className="my-5">
-        <div className = 'flex items-center justify-between pr-10'>
-          <Title text = "Direct Messages" />
-          <NewDM/>
-        </div>
-        <div className = 'flex items-center justify-between pr-10'>
-          <Title text = "Channels" />
-        </div>
-      </div>
-      <ProfileInfo/>
-    </div>
-  )
-}
-
-export default ContactsContainer
+import apiClient from '@/lib/api-client';
+import { GET_DM_CONTACTS } from '@/utils/constants';
 
 const Logo = () => {
   return (
@@ -64,3 +44,43 @@ const Title = ({text}) => {
     </h6>
   )
 }
+
+const ContactsContainer = () => {
+
+  useEffect(() => {
+    const getContacts = async () => {
+      console.log("inside useEffect of getContacts");
+      const response = await apiClient.get(GET_DM_CONTACTS , {
+        withCredentials : true,
+      });
+      console.log("heyyy");
+      console.log(response);
+
+      if(response.data.contacts){
+        console.log(response.data.contacts);
+      }
+    }
+
+    getContacts();
+  } , []);
+
+  return (
+    <div className = "relative md:w-[35vw] lg:w-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full">
+      <div className="pt-3">
+        <Logo/>
+      </div>
+      <div className="my-5">
+        <div className = 'flex items-center justify-between pr-10'>
+          <Title text = "Direct Messages" />
+          <NewDM/>
+        </div>
+        <div className = 'flex items-center justify-between pr-10'>
+          <Title text = "Channels" />
+        </div>
+      </div>
+      <ProfileInfo/>
+    </div>
+  )
+}
+
+export default ContactsContainer
