@@ -1,8 +1,9 @@
 import apiClient from "@/lib/api-client";
 import { useAppStore } from "@/store";
-import { GET_ALL_MESSAGES } from "@/utils/constants";
+import { GET_ALL_MESSAGES, HOST } from "@/utils/constants";
 import moment from "moment";
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react";
+import {MdFolderZip} from 'react-icons/md';
 
 
 const MessageContainer = () => {
@@ -62,7 +63,16 @@ const MessageContainer = () => {
 
   }, [selectedChatMessages]);
 
+
+  const checkIfImage = (filePath) => {
+    if (!filePath) return false;
+    const extensionRegex = /\.(jpeg|jpg|png|gif|bmp|webp|svg)$/i;
+    return extensionRegex.test(filePath);
+  };
+
+
   const renderDmMessages = (msg) => {
+    // console.log("message dekho bhayon --> ",msg);
     return (
       <div className = {`${msg.sender === selectedChatData._id ? 'text-left' : 'text-right'}`}>
         {
@@ -71,6 +81,30 @@ const MessageContainer = () => {
               "bg-[#8417ff]/5  text-[#8217ff]/90 border-[#8417ff]/50" :  
               "bg-[#2a2b33]/5  text-white/90 border-[#ffffff]/20"} border inline-block p-4 rounded my-1 max-w-[50%] break-words`} >
               {msg.content}
+            </div>
+          )
+        }
+        {
+          msg.msgType === 'file' && (
+            <div 
+              className = {`${msg.sender !== selectedChatData. _id ? 
+              "bg-[#8417ff]/5  text-[#8217ff]/90 border-[#8417ff]/50" :  
+              "bg-[#2a2b33]/5  text-white/90 border-[#ffffff]/20"} border inline-block p-4 rounded my-1 max-w-[50%] break-words`} 
+            >
+              
+              {checkIfImage(msg.fileUrl) ? 
+              <div className="cursor-pointer">
+                <img src = {`${HOST}/${msg.fileUrl}`} height={300} width={300}/>
+              </div> 
+              : 
+              <div className = 'flex items-center justify-center gap-4'>
+                <span 
+                  className = 'text-white/8 text-3xl bg-black/20 rounded-full p-3'>
+                  <MdFolderZip/>
+                </span>
+                <span>{msg.fileUrl.split("/").pop()}</span>
+              </div>}
+
             </div>
           )
         }

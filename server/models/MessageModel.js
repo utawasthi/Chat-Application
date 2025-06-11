@@ -19,13 +19,13 @@ const msgSchema = new mongoose.Schema({
   content : {
     type : String,
     required : function () {
-      return this.msgType == 'text';
+      return this.msgType === 'text';
     }
   },
   fileUrl : {
     type : String ,
     required : function () {
-      return this.msgType == 'file';
+      return this.msgType === 'file';
     }
   },
   timestamp : {
