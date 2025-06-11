@@ -4,6 +4,7 @@ import { GET_ALL_MESSAGES, HOST } from "@/utils/constants";
 import moment from "moment";
 import { useEffect, useRef } from "react";
 import {MdFolderZip} from 'react-icons/md';
+import {IoMdArrowRoundDown} from 'react-icons/io';
 
 
 const MessageContainer = () => {
@@ -70,6 +71,25 @@ const MessageContainer = () => {
     return extensionRegex.test(filePath);
   };
 
+  const downloadFile = async (url) => {
+    const response = await apiClient.get(
+      `${HOST}/${url}` ,
+      {
+        responseType : 'blob', // blob = binary large object that browser can understand 
+      } 
+    );
+
+    const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
+
+    const link = document.createElement('a');
+    link.href = urlBlob;
+    link.setAttribute('download' , url.split('/').pop());
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(urlBlob);
+  }
+
 
   const renderDmMessages = (msg) => {
     // console.log("message dekho bhayon --> ",msg);
@@ -103,6 +123,12 @@ const MessageContainer = () => {
                   <MdFolderZip/>
                 </span>
                 <span>{msg.fileUrl.split("/").pop()}</span>
+                <span 
+                  className = 'bg-black/20 p-3 text-2xl rounded-full hover:bg-black/50 cursor-pointer transition-all duration-300'
+                  onClick = {() => downloadFile(msg.fileUrl)}
+                 >
+                  <IoMdArrowRoundDown/>
+                 </span>
               </div>}
 
             </div>
