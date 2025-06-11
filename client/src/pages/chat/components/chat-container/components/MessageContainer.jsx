@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react"
 const MessageContainer = () => {
 
   const scrollRef = useRef();
+  const prevLastMsgId = useRef(null);
   const {selectedChatData , selectedChatType , userInfo , selectedChatMessages , setSelectedChatMessages} = useAppStore();
 
 
@@ -46,11 +47,20 @@ const MessageContainer = () => {
   );
 
   useEffect(() => {
-    if(scrollRef.current){
-      scrollRef.current.scrollIntoView({behavior : 'smooth'});
-    }
-  } , [selectedChatMessages]);
+    if (
+      selectedChatMessages.length === 0 ||
+      !scrollRef.current
+    ) return;
 
+    const lastMsg = selectedChatMessages[selectedChatMessages.length - 1];
+
+    // Only scroll if a *new* message arrived
+    if (lastMsg._id !== prevLastMsgId.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+      prevLastMsgId.current = lastMsg._id;
+    }
+
+  }, [selectedChatMessages]);
 
   const renderDmMessages = (msg) => {
     return (

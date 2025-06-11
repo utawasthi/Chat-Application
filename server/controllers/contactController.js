@@ -50,15 +50,18 @@ const getContactForDmList = async (req , res) => {
     userId = new mongoose.Types.ObjectId(userId);
 
     const contacts = await Messages.aggregate([
-      {
+      { 
         $match : {
+          // keep the msgs where user is either sender or receiver , because we want the msgs related to user only
           $or : [{sender : userId} , {recipient : userId}],
         }
       },
-      {
+      { 
+        // sort msgs from newest (first) --> oldest(last)
         $sort : {timestamp : -1}  ,
       }
       ,{
+        // 
         $group : {
           _id : {
             $cond : {
@@ -68,18 +71,30 @@ const getContactForDmList = async (req , res) => {
             },
           },
           lastMessageTime : {$first : "$timestamp"}
+
+          /* equivalent simpler , intuitive syntax --> 
+             this all get wrapped inside the _id 
+            _id = {
+              DMcontactId = (message.sender === userId) ? message.recipient : message.sender;
+            }
+            All these grouping results are wrapped inside _id field by mongoDB , it's a convention to keep all the results of grouping inside _id field
+          */
         },
       },
       {
         $lookup : {
-          from : "users",
-          localField : "_id",
-          foreignField : "_id",
+          from : "users", // document User tha , docs par query krte time User --> users (small case and plural) mein change ho jata h....
+          localField : "_id", // from grouped results
+          foreignField : "_id", // from user's collection
           as : "contactInfo",
         },
+
+        /* The lookup is essentially saying ----> 
+          "Take the _id from our current pipeline document (which is a contact's user ID , that we got after grouping query), and find the user in the 'users' collection who has that same _id." */
       },
       {
         $unwind : "$contactInfo",
+        // Convert contactInfo from [ {...} ] to {...} (from Array to Object)
       },
       {
         $project : {
@@ -107,7 +122,7 @@ const getContactForDmList = async (req , res) => {
     return response.status(500).json({
       success: false,
       message: "Internal Server Error!!",
-    })
+    });
   }
 }
 

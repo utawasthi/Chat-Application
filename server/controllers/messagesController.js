@@ -15,7 +15,7 @@ const getAllMessages = async (req , res) => {
         {sender : user1 , recipient : user2},
         {sender : user2 , recipient : user1},
       ],
-    }).sort({timestamps : 1});
+    }).sort({timestamp : 1});
 
     return res.status(200).json({
        success : true,
